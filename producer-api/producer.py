@@ -3,10 +3,7 @@ import uuid
 from typing import List
 
 from dotenv import load_dotenv
-from flask import (
-    Flask,
-    request
-)
+from flask import Flask, jsonify
 from flask_pydantic import validate
 from faker import Faker
 from kafka import KafkaAdminClient
@@ -51,30 +48,27 @@ def make_producer():
 
 @app.route('/api/people', methods=['POST'])
 @validate(body=CreatePeopleCommand, on_success_status=201)
-async def create_people(query: CreatePeopleCommand):
-    print(query)
+def create_people(body: CreatePeopleCommand):
     people: List[Person] = []
 
     faker: Faker = Faker()
     producer = make_producer()
 
-    for _ in range(query.count):
+    for _ in range(body.count):
         person = Person(
             id=str(uuid.uuid4()),
             name=faker.name(),
             title=faker.job().title()
         )
-        people.append(person)
+        people.append(person.model_dump(mode="json"))
         producer.send(
             topic=TOPIC_NAME,
             key=person.title.lower().replace(r"s+", "-").encode("utf-8"),
-            value=person.model_dump_json().encode("utf-8"),
+            value=person.model_dump_json().encode('utf-8'),
         )
 
     producer.flush()
-    return {
-        "people": people
-    }, 201
+    return people
 
 @app.route("/", methods=["GET"])
 def index():
