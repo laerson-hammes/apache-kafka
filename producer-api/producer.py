@@ -3,7 +3,7 @@ import uuid
 from typing import List
 
 from dotenv import load_dotenv
-from flask import Flask, jsonify
+from flask import Flask
 from flask_pydantic import validate
 from faker import Faker
 from kafka import KafkaAdminClient
