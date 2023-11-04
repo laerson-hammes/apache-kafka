@@ -26,4 +26,5 @@ Invoke-WebRequest -Method POST -Uri http://localhost:5000/api/people -ContentTyp
 ```
 
 Se tudo ocorrer como o esperado, você tera uma resposta semelhante a:
+
 ![Resposta](img/out.png)
