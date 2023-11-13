@@ -29,7 +29,6 @@ SCHEMA_URL = os.environ.get('SCHEMA_REGISTRY_URL')
 TOPIC_NAME = os.environ.get('TOPICS_PEOPLE_AVRO_NAME')
 TOPIC_PARTITIONS: int = int(os.environ.get('TOPICS_PEOPLE_AVRO_PARTITIONS'))
 TOPIC_REPLICAS: int = int(os.environ.get('TOPICS_PEOPLE_AVRO_REPLICAS'))
-CONSUMER_GROUP = os.environ.get('CONSUMER_GROUP_AVRO')
 
 
 app = Flask(__name__)
