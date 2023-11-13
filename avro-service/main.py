@@ -80,7 +80,8 @@ def make_schema_registry() -> SchemaRegistryClient:
 def make_avro_serializer() -> AvroSerializer:
     return AvroSerializer(
         make_schema_registry(),
-        schemas.person_value_v1
+        schemas.person_value_v1,
+        lambda person, ctx: person.model_dump()
     )
 
 def make_producer() -> SerializingProducer:
@@ -112,7 +113,7 @@ def create_people(body: CreatePeopleCommand):
         producer.produce(
             topic=TOPIC_NAME,
             key=person.title.lower().replace(r"s+", "-"),
-            value=person.model_dump(),
+            value=person,
             on_delivery=ProducerCallback(person)
         )
 
