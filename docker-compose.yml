@@ -114,3 +114,31 @@ services:
     container_name: cli-tools
     entrypoint: "sleep infinity"
     restart: always
+    networks:
+      - localnet
+
+  mongodb:
+    image: mongo:5.0
+    container_name: mongodb
+    hostname: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=developer
+      - MONGO_INITDB_ROOT_PASSWORD=D3v310p3r
+    restart: always
+    networks:
+      - localnet
+
+  # Docker exec -it mongosh mongosh mongodb://developer:D3v310p3r@mongodb:27017
+  mongosh:
+    image: mongo:5.0
+    container_name: mongosh
+    entrypoint: "sleep infinity"
+    restart: always
+    networks:
+      - localnet
+
+networks:
+  localnet:
+    attachable: true
