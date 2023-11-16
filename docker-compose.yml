@@ -10,6 +10,8 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - localnet
 
   broker0:
     image: confluentinc/cp-kafka:6.1.1
@@ -28,6 +30,8 @@ services:
       KAFKA_MIN_INSYNC_REPLICAS: 2
       KAFKA_DEFAULT_REPLICATION_FACTOR: 3
       KAFKA_NUM_PARTITIONS: 3
+    networks:
+      - localnet
 
   broker1:
     image: confluentinc/cp-kafka:6.1.1
@@ -46,6 +50,8 @@ services:
       KAFKA_MIN_INSYNC_REPLICAS: 2
       KAFKA_DEFAULT_REPLICATION_FACTOR: 3
       KAFKA_NUM_PARTITIONS: 3
+    networks:
+      - localnet
 
   broker2:
     image: confluentinc/cp-kafka:6.1.1
@@ -64,6 +70,8 @@ services:
       KAFKA_MIN_INSYNC_REPLICAS: 2
       KAFKA_DEFAULT_REPLICATION_FACTOR: 3
       KAFKA_NUM_PARTITIONS: 3
+    networks:
+      - localnet
 
   schema-registry:
     image: confluentinc/cp-schema-registry:6.1.1
@@ -80,6 +88,8 @@ services:
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker0:29092,broker1:29093,broker2:29094'
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
       SCHEMA_REGISTRY_SCHEMA_COMPATIBILITY_LEVEL: FULL
+    networks:
+      - localnet
 
   kafka-connect:
     # image: confluentinc/cp-kafka-connect-base:6.1.4
@@ -108,6 +118,8 @@ services:
       CONNECT_REST_ADVERTISED_HOST_NAME: "kafka-connect"
       CONNECT_LOG4J_APPENDER_STDOUT_LAYOUT_CONVERSIONPATTERN: "[%d] %p %X{connector.context}%m (%c:%L)%n"
       CONNECT_PLUGIN_PATH: /usr/share/java,/usr/share/confluent-hub-components,/data/connect-jars
+    networks:
+      - localnet
 
   cli-tools:
     image: confluentinc/cp-kafka:6.1.1
